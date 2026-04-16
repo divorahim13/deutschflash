@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LogIn, Mail, AlertTriangle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { loginWithEmail, signUpWithEmail } from './actions'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useLanguage } from '@/lib/i18n/context'
 
@@ -25,38 +26,31 @@ export default function LoginPage() {
   async function handleEmailLogin(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      alert(error.message)
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
+    
+    const res = await loginWithEmail(formData)
+    if (res?.error) {
+      alert(res.error)
       setLoading(false)
-    } else {
-      // Hard redirect to ensure fresh session is loaded
-      window.location.href = '/dashboard'
     }
   }
 
   async function handleSignUp(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    const { data, error } = await supabase.auth.signUp({ email, password })
-    if (error) {
-      alert(error.message)
-      setLoading(false)
-      return
-    }
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
     
-    // If email confirmation is disabled, session is available immediately
-    if (data.session) {
-      window.location.href = '/dashboard'
-    } else {
-      // Sign in explicitly to get session
-      const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
-      if (loginError) {
-        alert('Account created! Please log in: ' + loginError.message)
-        setLoading(false)
-      } else {
-        window.location.href = '/dashboard'
-      }
+    const res = await signUpWithEmail(formData)
+    if (res?.error) {
+      alert(res.error)
+      setLoading(false)
+    } else if (res?.msg) {
+      alert(res.msg)
+      setLoading(false)
     }
   }
 
