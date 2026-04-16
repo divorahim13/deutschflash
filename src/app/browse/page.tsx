@@ -104,8 +104,8 @@ export default function BrowsePage() {
         <h1 className="text-2xl font-bold">{t.browse?.title || 'Koleksi Kosakata'}</h1>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center gap-8 py-8 w-full cursor-pointer" onClick={handleFlip}>
-        <div className="perspective-1000 w-full aspect-[16/10] max-h-[400px]">
+      <div className="flex-1 flex flex-col items-center justify-center gap-8 py-4 w-full cursor-pointer" onClick={handleFlip}>
+        <div className="perspective-1000 w-full aspect-[4/5] sm:aspect-[16/10] max-h-[500px]">
            <div className={cn(
              "relative w-full h-full transition-all duration-700 preserve-3d shadow-xl rounded-[2.5rem]",
              isFlipped ? "rotate-y-180" : ""
@@ -120,12 +120,12 @@ export default function BrowsePage() {
               </div>
 
               {/* Back */}
-              <div className="absolute inset-0 backface-hidden rotate-y-180 bg-primary text-primary-foreground flex flex-col items-center justify-center p-8 rounded-[2.5rem] text-center overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                  <div className="absolute top-6 left-6 text-xs text-primary-foreground/60 uppercase font-bold tracking-widest flex items-center gap-1">
+              <div className="absolute inset-0 backface-hidden rotate-y-180 bg-primary text-primary-foreground flex flex-col items-center justify-start sm:justify-center p-6 sm:p-8 pt-14 sm:pt-8 rounded-[2.5rem] text-center overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                  <div className="absolute top-5 sm:top-6 left-5 sm:left-6 text-xs text-primary-foreground/60 uppercase font-bold tracking-widest flex items-center gap-1">
                     <BookOpen size={12} /> Vokabel
                   </div>
                   
-                  <div className="text-3xl md:text-4xl font-bold mb-1 mt-4">
+                  <div className="text-3xl md:text-4xl font-bold mb-1 mt-2 sm:mt-4">
                     {currentCard?.article && <span className="text-primary-foreground/70 mr-2 font-normal italic text-2xl">{currentCard.article}</span>}
                     {currentCard?.kata_jerman}
                   </div>
