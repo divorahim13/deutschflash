@@ -11,7 +11,7 @@ import { LanguageToggle } from "@/components/LanguageToggle";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "DeutschFlash | Premium German A2 Learning",
+  title: "DeutschFlash | Premium German Vocabulary",
   description: "Master German vocabulary with spaced repetition and AI-powered cards.",
   manifest: "/manifest.json",
   appleWebApp: {
