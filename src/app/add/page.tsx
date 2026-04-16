@@ -18,6 +18,13 @@ export default function AddPage() {
   const [error, setError] = useState<string | null>(null)
   const [isFlipped, setIsFlipped] = useState(false)
   const [korrektur, setKorrektur] = useState<string | null>(null)
+  const [kataJerman, setKataJerman] = useState('')
+
+  const umlauts = ['ä', 'ö', 'ü', 'ß', 'Ä', 'Ö', 'Ü']
+
+  const insertUmlaut = (char: string) => {
+    setKataJerman((prev) => prev + char)
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -73,10 +80,27 @@ export default function AddPage() {
                 <Input 
                   id="kata_jerman" 
                   name="kata_jerman" 
+                  value={kataJerman}
+                  onChange={(e) => setKataJerman(e.target.value)}
                   placeholder="z.B. der Tisch, laufen..." 
                   className="py-6 text-lg border-primary/20 bg-primary/5 focus-visible:ring-primary"
                   required
                 />
+                <div className="flex gap-2 flex-wrap pt-1">
+                  {umlauts.map((char) => (
+                    <button 
+                      key={char} 
+                      type="button" 
+                      onClick={() => {
+                        insertUmlaut(char);
+                        document.getElementById('kata_jerman')?.focus();
+                      }}
+                      className="w-10 h-10 rounded-xl bg-muted/80 text-foreground hover:bg-primary hover:text-primary-foreground focus:ring-2 focus:ring-primary/40 flex items-center justify-center text-lg font-medium shadow-sm transition-all border border-border"
+                    >
+                      {char}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="konteks">{t.add.context}</Label>
@@ -212,7 +236,13 @@ export default function AddPage() {
                <Link href="/dashboard">
                   <Button variant="outline">{t.add.backToDashboard}</Button>
                </Link>
-               <Button onClick={() => window.location.reload()} variant="secondary">Add Another</Button>
+               <Button onClick={() => {
+                 setResult(null);
+                 setKataJerman('');
+                 setIsFlipped(false);
+                 setKorrektur(null);
+                 setError(null);
+               }} variant="secondary">Add Another</Button>
             </div>
           </div>
         )}
